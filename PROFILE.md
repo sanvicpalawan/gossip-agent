@@ -49,3 +49,27 @@ tools/last30days-skill/
 - Env: `~/.config/last30days/.env` (`chmod 600`), keys per `tools/last30days-skill/CONFIGURATION.md`
 - Health: `python3 tools/last30days-skill/skills/last30days/scripts/last30days.py --preflight` / `--diagnose` / `doctor`
 - Outputs: `LAST30DAYS_MEMORY_DIR` (default `~/Documents/Last30Days/`), `--emit=json|html`, `library feed/search`, `queue list`
+
+---
+
+# PROFILE: open-notebook
+
+> Source: https://github.com/lfnovo/open-notebook | MIT | 39.1k stars
+> Location: `tools/open-notebook` (submodule)
+> Stack: Python/FastAPI + Next.js/React + SurrealDB + LangChain, Docker
+
+## 1. One-liner
+
+Private NotebookLM: notebooks of PDF/video/audio/web/Office sources, 18+ LLM providers (OpenAI, Anthropic, Ollama local...), vector+full-text search, cited chat, transformations, 1-4 speaker podcasts, full REST API + MCP.
+
+## 2. Endpoints (base `http://localhost:5055`, Swagger at `/docs`)
+
+`POST /notebooks`, `POST /sources` (file/URL/text), `POST /chat/execute`, `POST /search` + `/search/ask`, `POST /sources/{id}/insights`, `GET /health`. Auth: `Authorization: Bearer <OPEN_NOTEBOOK_PASSWORD>` (dev).
+
+## 3. Run
+
+`cd tools/open-notebook && docker compose up -d` -> UI `:8502`, API `:5055`. Set `OPEN_NOTEBOOK_ENCRYPTION_KEY` first. Add provider key in Models page or run Ollama fully local.
+
+## 4. Bridge
+
+`ingest/last30days_to_notebook.py --file <raw.md> [--notebook Gossip] [--dry-run]` or `--topic "<t>"` to research+ingest one-shot. Flow doc: `SUPER-AGENT.md`.

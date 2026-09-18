@@ -1,3 +1,6 @@
 [submodule "tools/last30days-skill"]
 	path = tools/last30days-skill
 	url = https://github.com/mvanhorn/last30days-skill.git
+[submodule "tools/open-notebook"]
+	path = tools/open-notebook
+	url = https://github.com/lfnovo/open-notebook.git

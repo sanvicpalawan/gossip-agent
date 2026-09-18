@@ -1,8 +1,12 @@
 # gossip-agent
 
-Digital-agency research agent powered by `/last30days`.
+Super-agent: fresh social research in, private memory out.
 
-Submodule: `tools/last30days-skill` -> https://github.com/mvanhorn/last30days-skill (v3.24.0, MIT).
+- Research: `tools/last30days-skill` -> https://github.com/mvanhorn/last30days-skill (v3.24.0, MIT)
+- Memory: `tools/open-notebook` -> https://github.com/lfnovo/open-notebook (MIT, NotebookLM alternative)
+- Bridge: `ingest/last30days_to_notebook.py` (stdlib only)
+
+See `PROFILE.md` for tool profiles, `SUPER-AGENT.md` for the wiring diagram.
 
 ## What it does
 
@@ -42,10 +46,11 @@ Output saves to `~/Documents/Last30Days/<slug>-raw.md` by default.
 ```
 gossip-agent/
   tools/last30days-skill/  # upstream submodule (don't edit, PR upstream)
-  PROFILE.md               # tool profile for agents
-  README.md
+  tools/open-notebook/     # upstream submodule (Docker app, don't edit)
+  ingest/last30days_to_notebook.py  # bridge: raw.md -> POST /sources
+  PROFILE.md SUPER-AGENT.md README.md
 ```
 
 ## License
 
-This repo: agency use. Upstream `tools/last30days-skill` stays MIT (c) Matt Van Horn. See `tools/last30days-skill/LICENSE`.
+This repo: agency use. Upstreams stay MIT: `tools/last30days-skill` (c) Matt Van Horn, `tools/open-notebook` (c) lfnovo. See their `LICENSE` files.
