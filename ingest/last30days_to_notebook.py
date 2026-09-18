@@ -119,20 +119,16 @@ def main():
         raise RuntimeError("could not resolve notebook id (check /docs schemas)")
     print(f"notebook: {args.notebook} -> {nb_id}")
 
-    # Try JSON text source, then upload-style payload
-    payloads = [
-        {"notebook_id": nb_id, "title": title, "type": "text", "content": text},
-        {"notebook_id": nb_id, "name": title, "text": text},
-    ]
-    for p in payloads:
-        try:
-            res = api_call("POST", base, password, "/sources", p, timeout=120)
-            print(f"ingested: {res.get('id', res)}")
-            return
-        except urllib.error.HTTPError as e:
-            print(f"payload shape rejected ({e.code}), trying next...", flush=True)
-    raise RuntimeError("ingest failed: server rejected text payloads - "
-                       "open http://localhost:5055/docs and check POST /sources schema")
+    # POST /api/sources/json with SourceCreate schema (verified 2026-09-18
+    # against /openapi.json): type/content/title + notebooks[] + embed.
+    payload = {"type": "text", "title": title, "content": text,
+               "notebooks": [nb_id], "embed": True}
+    try:
+        res = api_call("POST", base, password, "/sources/json", payload, timeout=300)
+    except urllib.error.HTTPError as e:
+        body = e.read().decode(errors="replace")[:500]
+        raise RuntimeError(f"ingest failed ({e.code}): {body}")
+    print(f"ingested: {res.get('id', res)}")
 
 
 if __name__ == "__main__":
